@@ -19,5 +19,4 @@ frontend/.env.test.local
 frontend/.env.production.local
 
 # Agent
-.agent/history/
-.agent/logs/
+.agent/
