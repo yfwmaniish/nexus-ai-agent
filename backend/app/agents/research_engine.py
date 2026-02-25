@@ -52,17 +52,39 @@ PHASE 2 — HYPOTHESIZE: Why are these patterns occurring? Root causes, market d
 PHASE 3 — VALIDATE: Which hypotheses are supported by evidence? Cross-reference data points.
 PHASE 4 — SYNTHESIZE: What are the actionable insights? Strategic recommendations.
 
-RULES:
-1. Reference specific products, SKUs, prices, ratings, and review quotes
-2. Compare against competitors with actual numbers
-3. Identify trends and seasonal patterns
-4. Quantify every claim (percentages, deltas, ratios)
-5. Provide multiple chart specifications for data visualization
-6. Be thorough — this should feel like a consultant's report
-7. Include confidence scores and uncertainty notes
-8. Aim for 1200-1800 words of analysis
+REQUIRED OUTPUT SCHEMA (JSON ONLY):
+{
+  "executive_summary": "4-5 sentence strategic overview",
+  "findings": [
+    {
+      "title": "Finding title",
+      "detail": "Deep dive detail with product/data mentions",
+      "evidence": ["exact metric or quote 1", "metric 2"],
+      "confidence": 0.9,
+      "sentiment": "positive|negative|neutral|mixed"
+    }
+  ],
+  "recommendations": ["specific actionable step 1", "step 2"],
+  "charts": [
+    {
+      "chart_type": "bar|line|donut|gauge|grouped_bar",
+      "title": "Descriptive Chart Title",
+      "data": [{"label": "Jan", "value": 100}, {"label": "Feb", "value": 120}],
+      "x_key": "label",
+      "y_keys": ["value"],
+      "colors": ["#06B6D4", "#10B981"]
+    }
+  ],
+  "confidence_score": 0.85,
+  "uncertainty_notes": ["caveat 1", "caveat 2"]
+}
 
-Return ONLY valid JSON with the same structure as quick mode but more comprehensive findings (5-8 findings, 3-5 charts, 4-6 recommendations)."""
+RULES:
+1. MANDATORY: Return ONLY valid JSON. No markdown backticks, no preamble.
+2. REFERENCE: Use specific product names, SKUs, and numerical metrics from the provided context.
+3. QUALITY: Each product mention must include its SKU and price for verification.
+4. DEPTH: Provide at least 5 deep findings and 3-4 data-heavy charts.
+5. NO HALLUCINATION: If data is missing for a specific category, note it in uncertainty_notes."""
 
 
 def _build_data_context(data: dict) -> str:

@@ -28,6 +28,7 @@ export default function Sidebar() {
                     <LayoutDashboard size={18} className="text-[#06B6D4]" />
                     Research Terminal
                 </a>
+                {/* 
                 <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#ffffff0a] font-medium transition-colors">
                     <History size={18} />
                     History
@@ -35,7 +36,8 @@ export default function Sidebar() {
                 <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#ffffff0a] font-medium transition-colors">
                     <Database size={18} />
                     Data Sources
-                </a>
+                </a> 
+                */}
             </nav>
 
             <div className="p-4 border-t border-[#ffffff1a]">
