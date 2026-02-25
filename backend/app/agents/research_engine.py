@@ -158,9 +158,18 @@ async def run_quick(
 
     result = await llm.chat(messages, temperature=0.4, max_tokens=4096, json_mode=True)
 
+    print(f"DEBUG: QUICK LLM RESULT: {result['content'][:500]}...")
+    
+    content = result["content"].strip()
+    if content.startswith("```"):
+        content = content.split("\n", 1)[-1].rsplit("\n", 1)[0]
+    if content.startswith("json"):
+        content = content[4:].strip()
+
     try:
-        parsed = json.loads(result["content"])
+        parsed = json.loads(content)
     except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse Quick JSON. Raw: {content}")
         parsed = {
             "executive_summary": result["content"][:500],
             "findings": [],
@@ -222,9 +231,23 @@ async def run_deep(
     if on_progress:
         on_progress("Finalizing", "Structuring report and charts...", 95)
 
+    print(f"DEBUG: DEEP LLM RESULT: {result['content'][:500]}...")
+    
+    content = result["content"].strip()
+    # Strip markdown backticks if present
+    if content.startswith("```"):
+        # Handle cases like ```json ... ```
+        lines = content.splitlines()
+        if lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        content = "\n".join(lines).strip()
+
     try:
-        parsed = json.loads(result["content"])
+        parsed = json.loads(content)
     except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse Deep JSON. Raw content starts with: {content[:200]}")
         parsed = {
             "executive_summary": result["content"][:800],
             "findings": [],
